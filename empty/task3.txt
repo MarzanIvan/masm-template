@@ -1,0 +1,31 @@
+title empty
+.686
+.model flat, stdcall
+option casemap :none   ; case sensitive
+; Раздел подключения библиотек
+include    \masm32\include\windows.inc 
+include    \masm32\include\kernel32.inc
+include    \masm32\include\user32.inc
+includelib  \masm32\lib\kernel32.lib 
+includelib  \masm32\lib\user32.lib
+; Сегмент данных
+.data
+x  dd  87654321h
+; Сегмент кода
+.code
+; Точка входа в программу 
+main proc far
+mov EAX, 12345678h ; Поместим число 0x12345678 в регистр EAX
+add EAX, 0CC796837h ; Прибавим к содержимому EAX число 0xCC796837 ; Результат помещается в EAX
+jmp quit
+; Переход на метку quit
+; Операторы находящиеся ниже будут пропущены
+mov EBX, [x]       ; Поместим содержимое переменной x в регистр EBX 
+sub EAX, EBX                                   ; Отнимем от содержимого EAX содержимое EBX
+; Выход из программы
+quit:
+mov EAX, 0
+invoke ExitProcess, EAX
+main endp
+; Конец программы
+end main

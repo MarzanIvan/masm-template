@@ -1,0 +1,33 @@
+title empty
+.686
+.model flat, stdcall
+option casemap :none   ; case sensitive
+; Раздел подключения библиотек
+include    \masm32\include\windows.inc 
+include    \masm32\include\kernel32.inc 
+include    \masm32\include\user32.inc
+includelib  \masm32\lib\kernel32.lib 
+includelib  \masm32\lib\user32.lib
+; Сегмент данных
+.data
+x  dd  87654321h
+y  dd  ?
+; Сегмент кода
+.code
+; Точка входа в программу
+main proc far
+mov EAX, 12345678h
+; Помещаем в регистр EAX число 0x12345678
+mov EBX, [x]
+; Помещаем в регистр EBX значение переменной x
+add EAX, EBX
+;Складываем EAX и EBX и помещаем результат в EAX
+mov [y], EAX
+; Сохраняем результат в переменной y
+; Выход из программы
+quit:
+mov EAX, 0
+invoke ExitProcess, EAX
+main endp
+; Конец программы
+end main
